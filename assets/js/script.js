@@ -1,23 +1,8 @@
-'use strict';
-
-
-
-/**
- * PRELOADER
- */
-
-const preloader = document.querySelector("[data-preloader]");
 
 window.addEventListener("DOMContentLoaded", function () {
   preloader.classList.add("loaded");
   document.body.classList.add("loaded");
 });
-
-
-
-/**
- * add event on multiple elements
- */
 
 const addEventOnElements = function (elements, eventType, callback) {
   for (let i = 0, len = elements.length; i < len; i++) {
@@ -25,7 +10,7 @@ const addEventOnElements = function (elements, eventType, callback) {
   }
 }
 
-
+const preloader = document.querySelector("[data-preloader]");
 
 /**
  * Mobile navbar toggle
@@ -159,3 +144,47 @@ addEventOnElements(hoveredElements, "mouseout", function () {
     cursors[i].classList.remove("hovered");
   }
 });
+
+// Email.js
+
+
+
+const contactForm = document.getElementById('contact-form'),
+contactMessage = document.getElementById('contact-message'),
+contactUser = document.getElementById('contact-user')
+
+const sendEmail = async(e) => {
+e.preventDefault();
+
+if (contactUser.value === '') {
+    contactMessage.classList.remove('color-green')
+    contactMessage.classList.add('color-red')
+
+    contactMessage.textContent = 'You must enter your email!'
+
+    setTimeout(() => {
+        contactMessage.textContent = ''
+    }, 3000)
+} else {
+    emailjs.sendForm('service_lsi2r0i', 'template_1noe7wp', 'contactForm', 'jOyLmcuZ4P_rx_ERi')
+        .then(() => {
+            contactMessage.classList.add('color-green')
+            contactMessage.textContent = 'Message sent successfully!'
+
+            setTimeout(() =>{
+                contactMessage.textContent =''
+            }, 3000)
+        })
+        .catch((error) => {
+            contactMessage.classList.add('color-red')
+            contactMessage.textContent = error.message
+        })
+
+    //Clearing input field
+    contactUser.value = ''
+        
+}
+}
+
+contactForm.addEventListener('submit', sendEmail)
+
